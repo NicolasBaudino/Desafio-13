@@ -74,7 +74,7 @@ router.post("/login", async (req, res) => {
 
 router.post('/register', passport.authenticate('register', { session: false }), async (req, res) => {
     console.log("Registering user");
-    res.status(201).send({ status: "success", message: "User created" });
+    res.status(200).send({ status: "success", message: "User created" });
 })
 
 router.post("/recover-password", async(req, res) => {
@@ -147,7 +147,6 @@ router.post("/new-password/:token", async (req, res) => {
         await emailService.deleteToken(token);
         return res.redirect("/users/send-email-to-reset");
     }
-    console.log("hola")
     try {
         const account = await userService.getAccountByEmail(findUser.email);
         console.log("account: ", account)
