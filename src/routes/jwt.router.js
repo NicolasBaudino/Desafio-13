@@ -30,7 +30,7 @@ router.post("/login", async (req, res) => {
             )
       
             return res.status(200).json({
-              success: true,
+              success: "success",
               data: "admin",
             });
         }
@@ -64,17 +64,17 @@ router.post("/login", async (req, res) => {
             )
         }
         
-        res.send({ message: "Login success" })
+        res.send({ success: "success", message: "Login success" })
     } catch (error) {
         console.error(error);
-        return res.status(500).send({ status: "error", error: "Internal application error" });
+        return res.status(500).send({ success: "error", status: "error", error: "Invalid credentials" });
     }
 
 });
 
 router.post('/register', passport.authenticate('register', { session: false }), async (req, res) => {
     console.log("Registering user");
-    res.status(200).send({ status: "success", message: "User created" });
+    res.status(200).send({ status: "success", message: "User created", data: req.user });
 })
 
 router.post("/recover-password", async(req, res) => {
@@ -171,5 +171,13 @@ router.post("/new-password/:token", async (req, res) => {
         error: err.message,
         });
     }
+})
+
+router.get("/logout", async(req, res) => {
+  res.clearCookie("jwtCookieToken");
+  res.status(200).json({
+    success: true,
+    data: "Logged out",
+  });
 })
 export default router;

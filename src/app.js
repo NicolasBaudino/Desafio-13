@@ -8,9 +8,6 @@ import viewsRouter from "./routes/views.router.js"
 import mongoose from "mongoose";
 import messageDao from "./daos/dbManager/message.dao.js";
 import userRouter from "./routes/user.views.router.js"
-import sessionRouter from "./routes/sessions.router.js"
-import session from "express-session";
-import MongoStore from "connect-mongo";
 import githubLoginRouter from "./routes/github-login.views.router.js"
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
@@ -26,19 +23,19 @@ const PORT = config.port;
 const mongoURL = config.urlMongo; 
 
 app.use(cookieParser());
-app.use(session({
-  store: MongoStore.create({
-    mongoUrl: mongoURL,
-    ttl: 10 * 60
-  }),
-  secret: "n1C0l4sS3CR3T",
-  resave: false,
-  saveUninitialized: true
-}));
+// app.use(session({
+//   store: MongoStore.create({
+//     mongoUrl: mongoURL,
+//     ttl: 10 * 60
+//   }),
+//   secret: "n1C0l4sS3CR3T",
+//   resave: false,
+//   saveUninitialized: true
+// }));
 
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.session());
 
 mongoose.connect(mongoURL)
 .then(() => {
